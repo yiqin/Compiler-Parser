@@ -40,14 +40,28 @@
       know about them.  */
    enum yytokentype {
      INTEGER_LITERAL = 258,
-     PLUS = 259,
-     MULT = 260
+     VARIABLE = 259,
+     PLUS = 260,
+     MINUS = 261,
+     MULT = 262,
+     DIVIDE = 263,
+     SEMICOLON = 264,
+     LEFT_PARENTHESIS = 265,
+     RIGHT_PARENTHESIS = 266,
+     ASSIGN = 267
    };
 #endif
 /* Tokens.  */
 #define INTEGER_LITERAL 258
-#define PLUS 259
-#define MULT 260
+#define VARIABLE 259
+#define PLUS 260
+#define MINUS 261
+#define MULT 262
+#define DIVIDE 263
+#define SEMICOLON 264
+#define LEFT_PARENTHESIS 265
+#define RIGHT_PARENTHESIS 266
+#define ASSIGN 267
 
 
 
@@ -60,7 +74,7 @@ typedef union YYSTYPE
   string*	op_val;
 }
 /* Line 1529 of yacc.c.  */
-#line 64 "calc.tab.h"
+#line 78 "calc.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
