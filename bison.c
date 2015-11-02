@@ -99,7 +99,7 @@
 #include "heading.h"
 int yyerror(char *s);
 int yylex(void);
-Symbol_Table symbol_table;
+map<string, int> m;
 
 
 
@@ -429,8 +429,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    39,    39,    40,    43,    47,    51,    52,    56,    57,
-      58,    62,    63,    64,    68,    77,    78
+       0,    39,    39,    40,    43,    47,    52,    53,    57,    58,
+      59,    63,    64,    65,    69,    78,    79
 };
 #endif
 
@@ -1357,56 +1357,57 @@ yyreduce:
 #line 47 "calc.y"
     { 
         (yyval.int_val) = (yyvsp[(3) - (3)].int_val); 
-        symbol_table.add(*(yyvsp[(1) - (3)].op_val), (yyvsp[(3) - (3)].int_val));
+        // symbol_table.add(*$1, $3);
+        m[*(yyvsp[(1) - (3)].op_val)] = (yyvsp[(3) - (3)].int_val);
       ;}
     break;
 
   case 6:
-#line 51 "calc.y"
+#line 52 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (1)].int_val); ;}
     break;
 
   case 7:
-#line 52 "calc.y"
+#line 53 "calc.y"
     {;}
     break;
 
   case 8:
-#line 56 "calc.y"
+#line 57 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (3)].int_val) + (yyvsp[(3) - (3)].int_val); ;}
     break;
 
   case 9:
-#line 57 "calc.y"
+#line 58 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (3)].int_val) - (yyvsp[(3) - (3)].int_val); ;}
     break;
 
   case 10:
-#line 58 "calc.y"
+#line 59 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (1)].int_val); ;}
     break;
 
   case 11:
-#line 62 "calc.y"
+#line 63 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (3)].int_val) * (yyvsp[(3) - (3)].int_val); ;}
     break;
 
   case 12:
-#line 63 "calc.y"
+#line 64 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (3)].int_val) / (yyvsp[(3) - (3)].int_val); ;}
     break;
 
   case 13:
-#line 64 "calc.y"
+#line 65 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (1)].int_val); ;}
     break;
 
   case 14:
-#line 68 "calc.y"
+#line 69 "calc.y"
     { 
-        if (symbol_table.is_variable_defined(*(yyvsp[(1) - (1)].op_val))) {
+        if (m.find(*(yyvsp[(1) - (1)].op_val)) != m.end()) {
           // cout << "map contains " << *$1 << endl;
-          (yyval.int_val) = symbol_table.get_value(*(yyvsp[(1) - (1)].op_val));
+          (yyval.int_val) = m[*(yyvsp[(1) - (1)].op_val)];
         } else {
           cout << "ERROR: " <<*(yyvsp[(1) - (1)].op_val) << " has not been initialized." << endl;
           exit(1);
@@ -1415,18 +1416,18 @@ yyreduce:
     break;
 
   case 15:
-#line 77 "calc.y"
+#line 78 "calc.y"
     { (yyval.int_val) = (yyvsp[(1) - (1)].int_val); ;}
     break;
 
   case 16:
-#line 78 "calc.y"
+#line 79 "calc.y"
     { (yyval.int_val) = (yyvsp[(2) - (3)].int_val); ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1430 "calc.tab.c"
+#line 1431 "calc.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1640,7 +1641,7 @@ yyreturn:
 }
 
 
-#line 81 "calc.y"
+#line 82 "calc.y"
 
 
 int yyerror(string s)

@@ -2,7 +2,7 @@
 #include "heading.h"
 int yyerror(char *s);
 int yylex(void);
-Symbol_Table symbol_table;
+map<string, int> m;
 
 %}
 
@@ -46,7 +46,8 @@ input:
 intermediate:
       VARIABLE ASSIGN exp { 
         $$ = $3; 
-        symbol_table.add(*$1, $3);
+        // symbol_table.add(*$1, $3);
+        m[*$1] = $3;
       }
     | exp { $$ = $1; }
     | {}
@@ -66,9 +67,9 @@ term:
 
 final_state:
       VARIABLE { 
-        if (symbol_table.is_variable_defined(*$1)) {
+        if (m.find(*$1) != m.end()) {
           // cout << "map contains " << *$1 << endl;
-          $$ = symbol_table.get_value(*$1);
+          $$ = m[*$1];
         } else {
           cout << "ERROR: " <<*$1 << " has not been initialized." << endl;
           exit(1);
