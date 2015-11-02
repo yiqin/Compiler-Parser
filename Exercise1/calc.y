@@ -3,7 +3,7 @@
 int yyerror(char *s);
 int yylex(void);
 map<string, int> m;
-
+Symbol_Table symbol_table;
 %}
 
 
@@ -47,7 +47,7 @@ intermediate:
       VARIABLE ASSIGN exp { 
         $$ = $3; 
         // symbol_table.add(*$1, $3);
-        m[*$1] = $3;
+        symbol_table.m[*$1] = $3;
       }
     | exp { $$ = $1; }
     | {}
@@ -67,9 +67,9 @@ term:
 
 final_state:
       VARIABLE { 
-        if (m.find(*$1) != m.end()) {
+        if (symbol_table.m.find(*$1) != symbol_table.m.end()) {
           // cout << "map contains " << *$1 << endl;
-          $$ = m[*$1];
+          $$ = symbol_table.m[*$1];
         } else {
           cout << "ERROR: " <<*$1 << " has not been initialized." << endl;
           exit(1);
