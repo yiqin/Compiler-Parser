@@ -6,13 +6,14 @@ Symbol_Table symbol_table;
 
 %}
 
-
 %union{
   int		int_val;
   string*	string_val;
   Type type_val;
-  vector<string*>* argument_list;
+  Argument* argument;
+  vector<Argument*>* argument_list;
 }
+
 
 %start	s_expression 
 
@@ -20,7 +21,7 @@ Symbol_Table symbol_table;
 %token <string_val> IDENT
 
 %type <argument_list> l_expression
-%type <string_val> p_expression
+%type <argument> p_expression
 %type <type_val> type_expression
 
 
@@ -42,6 +43,7 @@ s_expression:
     | s_expression d_expression { }
 		;
 
+
 d_expression:
       type_expression IDENT LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS SEMICOLON {
         
@@ -51,7 +53,7 @@ d_expression:
         ostringstream oss;
         oss << "Arguments: ";
         for (auto& argument : *$4) {
-          oss << *argument << ", ";
+          oss << argument->get_name() << "(" << argument->get_type_str() << ")" << ", ";
         }
         cout << oss.str() << endl;
       }
@@ -62,36 +64,30 @@ d_expression:
     }
     ;
 
+
 l_expression:
       l_expression COMMA p_expression {
         $$ = $1;
         $$->push_back($3);
-        cout << " ====== (int)" << endl;
       }
     | p_expression {
-        vector<string*> *tmp = new vector<string*>();
+        vector<Argument*> *tmp = new vector<Argument*>();
         $$ = tmp;
         $$->push_back($1);
-        cout << " ====== (int)" << endl;
       }
     ;
 
+
 p_expression:
     | type_expression IDENT {
-        // $$ = $2;
-        // string* type_str;
-        if ($1 == Type::INT) {
-          // *type_str = *$2 + " (int)";
-          cout << *$2 << " (int)" << endl;
-        } else {
-          // *type_str = *$2 + " (string)";
-          cout << *$2 << " (string)" << endl;
-        }
-        // std::string buf($2);
-        // buf.append(two);
-        $$ = $2;  
+        Argument *new_argument = new Argument();
+        new_argument->set_name(*$2);
+        new_argument->set_type($1);
+
+        $$ = new_argument;  
       }
     ;
+
 
 type_expression:
       TYPE_INT { 

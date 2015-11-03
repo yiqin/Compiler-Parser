@@ -64,15 +64,16 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 10 "calc.y"
+#line 9 "calc.y"
 {
   int		int_val;
   string*	string_val;
   Type type_val;
-  vector<string*>* argument_list;
+  Argument* argument;
+  vector<Argument*>* argument_list;
 }
 /* Line 1529 of yacc.c.  */
-#line 76 "calc.tab.h"
+#line 77 "calc.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

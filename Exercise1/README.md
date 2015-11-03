@@ -12,6 +12,11 @@ in the terminal.
 
 The binary file is ``calc``.
 
+Type
+```
+./calc <testCase.txt
+```
+to run the test case.
 
 Question 1
 =======

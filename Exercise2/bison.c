@@ -119,15 +119,16 @@ Symbol_Table symbol_table;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 10 "calc.y"
+#line 9 "calc.y"
 {
   int		int_val;
   string*	string_val;
   Type type_val;
-  vector<string*>* argument_list;
+  Argument* argument;
+  vector<Argument*>* argument_list;
 }
 /* Line 193 of yacc.c.  */
-#line 131 "calc.tab.c"
+#line 132 "calc.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -140,7 +141,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 144 "calc.tab.c"
+#line 145 "calc.tab.c"
 
 #ifdef short
 # undef short
@@ -426,8 +427,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    39,    39,    40,    42,    46,    58,    66,    71,    79,
-      80,    97,   101
+       0,    40,    40,    41,    43,    48,    60,    69,    73,    81,
+      82,    93,    97
 };
 #endif
 
@@ -1334,18 +1335,18 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 40 "calc.y"
+#line 41 "calc.y"
     { 
       ;}
     break;
 
   case 4:
-#line 42 "calc.y"
+#line 43 "calc.y"
     { ;}
     break;
 
   case 5:
-#line 46 "calc.y"
+#line 48 "calc.y"
     {
         
         cout << "Function: " << *(yyvsp[(2) - (6)].string_val) << endl;
@@ -1354,14 +1355,14 @@ yyreduce:
         ostringstream oss;
         oss << "Arguments: ";
         for (auto& argument : *(yyvsp[(4) - (6)].argument_list)) {
-          oss << *argument << ", ";
+          oss << argument->get_name() << "(" << argument->get_type_str() << ")" << ", ";
         }
         cout << oss.str() << endl;
       ;}
     break;
 
   case 6:
-#line 58 "calc.y"
+#line 60 "calc.y"
     {
         cout << "Function: " << *(yyvsp[(2) - (5)].string_val) << endl;
         cout << "Type: " << ((yyvsp[(1) - (5)].type_val)== Type::INT ? "int" : "string") << endl;
@@ -1370,44 +1371,35 @@ yyreduce:
     break;
 
   case 7:
-#line 66 "calc.y"
+#line 69 "calc.y"
     {
         (yyval.argument_list) = (yyvsp[(1) - (3)].argument_list);
-        (yyval.argument_list)->push_back((yyvsp[(3) - (3)].string_val));
-        cout << " ====== (int)" << endl;
+        (yyval.argument_list)->push_back((yyvsp[(3) - (3)].argument));
       ;}
     break;
 
   case 8:
-#line 71 "calc.y"
+#line 73 "calc.y"
     {
-        vector<string*> *tmp = new vector<string*>();
+        vector<Argument*> *tmp = new vector<Argument*>();
         (yyval.argument_list) = tmp;
-        (yyval.argument_list)->push_back((yyvsp[(1) - (1)].string_val));
-        cout << " ====== (int)" << endl;
+        (yyval.argument_list)->push_back((yyvsp[(1) - (1)].argument));
       ;}
     break;
 
   case 10:
-#line 80 "calc.y"
+#line 82 "calc.y"
     {
-        // $$ = $2;
-        // string* type_str;
-        if ((yyvsp[(1) - (2)].type_val) == Type::INT) {
-          // *type_str = *$2 + " (int)";
-          cout << *(yyvsp[(2) - (2)].string_val) << " (int)" << endl;
-        } else {
-          // *type_str = *$2 + " (string)";
-          cout << *(yyvsp[(2) - (2)].string_val) << " (string)" << endl;
-        }
-        // std::string buf($2);
-        // buf.append(two);
-        (yyval.string_val) = (yyvsp[(2) - (2)].string_val);  
+        Argument *new_argument = new Argument();
+        new_argument->set_name(*(yyvsp[(2) - (2)].string_val));
+        new_argument->set_type((yyvsp[(1) - (2)].type_val));
+
+        (yyval.argument) = new_argument;  
       ;}
     break;
 
   case 11:
-#line 97 "calc.y"
+#line 93 "calc.y"
     { 
         // cout << "type int" << endl;
         (yyval.type_val) = Type::INT;
@@ -1415,7 +1407,7 @@ yyreduce:
     break;
 
   case 12:
-#line 101 "calc.y"
+#line 97 "calc.y"
     {
         // cout << "type string" << endl;
         (yyval.type_val) = Type::STRING;
@@ -1424,7 +1416,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1428 "calc.tab.c"
+#line 1420 "calc.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1638,7 +1630,7 @@ yyreturn:
 }
 
 
-#line 107 "calc.y"
+#line 103 "calc.y"
 
 
 int yyerror(string s)

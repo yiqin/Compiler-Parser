@@ -9,6 +9,32 @@ enum class Type {
     STRING,
 };
 
+class Argument
+{
+public:
+	const std::string get_name() {
+		return name;
+	}
+	const void set_name(std::string value) {
+		name = value;
+	}
+	const Type get_type() {
+		return type;
+	}
+	const void set_type(Type value) {
+		type = value;
+	}
+	const std::string get_type_str() {
+		if (type == Type::INT) {
+			return "int";
+		} else {
+			return "string";
+		}
+	}
+	std::string name;
+	Type type;
+};
+
 class Symbol_Table
 {
 public:
