@@ -1,6 +1,6 @@
 Exercise 1
 =======
-I used the template from http://alumni.cs.ucr.edu/~lgao/teaching/bison.html. The template includes basci files to run Bison. It is a desk calculator which performs '+' and '*' on unsigned integers.
+I used the template from http://alumni.cs.ucr.edu/~lgao/teaching/bison.html. The template includes basic files to run Bison. It is a desk calculator which performs '+' and '*' on unsigned integers.
 
 Based on these, I did the exercise 1.
 
@@ -19,12 +19,22 @@ More details are in the file ``symbol_table.hpp``
 ```
 class Symbol_Table
 {
-	map<string, int> m;
 public:
-	void add (string, int);
-	int get_value (string);
-	bool is_variable_defined (string);
-
+  const void add (std::string key, int value) {
+    m[key] = value;
+  };
+  const int get_value (std::string key) {
+    return m[key];
+  };
+  const bool is_variable_defined (std::string key) {
+    if (m.find(key) != m.end()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+protected:
+  std::map<std::string, int> m;
 };
 ```
 

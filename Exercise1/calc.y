@@ -45,8 +45,7 @@ input:
 intermediate:
       VARIABLE ASSIGN exp { 
         $$ = $3; 
-        // symbol_table.add(*$1, $3);
-        symbol_table.m[*$1] = $3;
+        symbol_table.add(*$1, $3);
       }
     | exp { $$ = $1; }
     | {}
@@ -66,10 +65,9 @@ term:
 
 final_state:
       VARIABLE { 
-        if (symbol_table.m.find(*$1) != symbol_table.m.end()) {
+        if (symbol_table.is_variable_defined(*$1)) {
           // cout << "map contains " << *$1 << endl;
-
-          $$ = symbol_table.m[*$1];
+          $$ = symbol_table.get_value(*$1);
         } else {
           cout << "ERROR: " <<*$1 << " has not been initialized." << endl;
           exit(1);
