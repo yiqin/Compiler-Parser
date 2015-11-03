@@ -4,11 +4,7 @@ I used the template from http://alumni.cs.ucr.edu/~lgao/teaching/bison.html. The
 
 Based on these, I did the exercise 1.
 
-To run the project, type 
-```
-make 
-```
-in the terminal.
+To run the project, type ``` make ``` in the terminal.
 
 The binary file is ``calc``.
 
@@ -17,6 +13,9 @@ Type
 ./calc <testCase.txt
 ```
 to run the test case.
+
+Type ``` make clean ``` to clean files.
+
 
 Question 1
 =======
