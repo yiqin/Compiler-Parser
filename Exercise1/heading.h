@@ -8,4 +8,4 @@ using namespace std;
 #include <stdio.h>
 #include <string>
 #include <map>
-// #include "symbol_table.h"
+#include "symbol_table.h"
