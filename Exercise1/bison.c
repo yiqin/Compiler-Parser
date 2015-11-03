@@ -1357,8 +1357,8 @@ yyreduce:
 #line 47 "calc.y"
     { 
         (yyval.int_val) = (yyvsp[(3) - (3)].int_val); 
-        // symbol_table.add(*$1, $3);
-        symbol_table.m[*(yyvsp[(1) - (3)].op_val)] = (yyvsp[(3) - (3)].int_val);
+        symbol_table.add(*(yyvsp[(1) - (3)].op_val), (yyvsp[(3) - (3)].int_val));
+        // symbol_table.m[*$1] = $3;
       ;}
     break;
 

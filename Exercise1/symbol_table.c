@@ -1,3 +1,5 @@
+#include "symbol_table.h"
+
 void Symbol_Table::add (string key, int value) {
 	m[key] = value;
 }

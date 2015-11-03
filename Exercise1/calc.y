@@ -46,8 +46,8 @@ input:
 intermediate:
       VARIABLE ASSIGN exp { 
         $$ = $3; 
-        // symbol_table.add(*$1, $3);
-        symbol_table.m[*$1] = $3;
+        symbol_table.add(*$1, $3);
+        // symbol_table.m[*$1] = $3;
       }
     | exp { $$ = $1; }
     | {}

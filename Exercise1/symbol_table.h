@@ -1,10 +1,13 @@
+#include <string>
+#include <map>
+
 class Symbol_Table
 {
 	
 public:
-	map<string, int> m;
-	void add (string, int);
-	int get_value (string);
-	bool is_variable_defined (string);
+	std::map<std::string, int> m;
+	void add (std::string, int);
+	int get_value (std::string);
+	bool is_variable_defined (std::string);
 
 };
