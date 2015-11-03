@@ -2,7 +2,6 @@
 #include "heading.h"
 int yyerror(char *s);
 int yylex(void);
-map<string, int> m;
 Symbol_Table symbol_table;
 %}
 
@@ -46,7 +45,7 @@ input:
 intermediate:
       VARIABLE ASSIGN exp { 
         $$ = $3; 
-        symbol_table.add(*$1, $3);
+        // symbol_table.add(*$1, $3);
         symbol_table.m[*$1] = $3;
       }
     | exp { $$ = $1; }
