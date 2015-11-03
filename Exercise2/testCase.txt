@@ -1,1 +1,1 @@
-int foo(string aa, string abc);
+int foo(string aa, string abc); int foo2();

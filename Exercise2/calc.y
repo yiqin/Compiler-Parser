@@ -14,7 +14,7 @@ Symbol_Table symbol_table;
   vector<string*>* argument_list;
 }
 
-%start	d_expression 
+%start	s_expression 
 
 %token	<int_val>	INTEGER_LITERAL
 %token <string_val> IDENT
