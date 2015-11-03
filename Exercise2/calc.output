@@ -1,0 +1,213 @@
+Useless nonterminals
+
+   s_expression
+
+
+Terminals which are not used
+
+   INTEGER_LITERAL
+
+
+Useless rules
+
+    9 s_expression: /* empty */
+   10             | d_expression
+   11             | s_expression d_expression
+
+
+State 7 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: d_expression $end
+
+    1 d_expression: type_expression IDENT LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS SEMICOLON
+    2             | type_expression IDENT LEFT_PARENTHESIS RIGHT_PARENTHESIS SEMICOLON
+
+    3 l_expression: l_expression COMMA p_expression
+    4             | p_expression
+
+    5 p_expression: /* empty */
+    6             | type_expression IDENT
+
+    7 type_expression: TYPE_INT
+    8                | TYPE_STRING
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INTEGER_LITERAL (258)
+IDENT (259) 1 2 6
+TYPE_INT (260) 7
+TYPE_STRING (261) 8
+SEMICOLON (262) 1 2
+COMMA (263) 3
+LEFT_PARENTHESIS (264) 1 2
+RIGHT_PARENTHESIS (265) 1 2
+
+
+Nonterminals, with rules where they appear
+
+$accept (11)
+    on left: 0
+d_expression (12)
+    on left: 1 2, on right: 0
+l_expression (13)
+    on left: 3 4, on right: 1 3
+p_expression (14)
+    on left: 5 6, on right: 3 4
+type_expression (15)
+    on left: 7 8, on right: 1 2 6
+
+
+state 0
+
+    0 $accept: . d_expression $end
+
+    TYPE_INT     shift, and go to state 1
+    TYPE_STRING  shift, and go to state 2
+
+    d_expression     go to state 3
+    type_expression  go to state 4
+
+
+state 1
+
+    7 type_expression: TYPE_INT .
+
+    $default  reduce using rule 7 (type_expression)
+
+
+state 2
+
+    8 type_expression: TYPE_STRING .
+
+    $default  reduce using rule 8 (type_expression)
+
+
+state 3
+
+    0 $accept: d_expression . $end
+
+    $end  shift, and go to state 5
+
+
+state 4
+
+    1 d_expression: type_expression . IDENT LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS SEMICOLON
+    2             | type_expression . IDENT LEFT_PARENTHESIS RIGHT_PARENTHESIS SEMICOLON
+
+    IDENT  shift, and go to state 6
+
+
+state 5
+
+    0 $accept: d_expression $end .
+
+    $default  accept
+
+
+state 6
+
+    1 d_expression: type_expression IDENT . LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS SEMICOLON
+    2             | type_expression IDENT . LEFT_PARENTHESIS RIGHT_PARENTHESIS SEMICOLON
+
+    LEFT_PARENTHESIS  shift, and go to state 7
+
+
+state 7
+
+    1 d_expression: type_expression IDENT LEFT_PARENTHESIS . l_expression RIGHT_PARENTHESIS SEMICOLON
+    2             | type_expression IDENT LEFT_PARENTHESIS . RIGHT_PARENTHESIS SEMICOLON
+
+    TYPE_INT           shift, and go to state 1
+    TYPE_STRING        shift, and go to state 2
+    RIGHT_PARENTHESIS  shift, and go to state 8
+
+    RIGHT_PARENTHESIS  [reduce using rule 5 (p_expression)]
+    $default           reduce using rule 5 (p_expression)
+
+    l_expression     go to state 9
+    p_expression     go to state 10
+    type_expression  go to state 11
+
+
+state 8
+
+    2 d_expression: type_expression IDENT LEFT_PARENTHESIS RIGHT_PARENTHESIS . SEMICOLON
+
+    SEMICOLON  shift, and go to state 12
+
+
+state 9
+
+    1 d_expression: type_expression IDENT LEFT_PARENTHESIS l_expression . RIGHT_PARENTHESIS SEMICOLON
+    3 l_expression: l_expression . COMMA p_expression
+
+    COMMA              shift, and go to state 13
+    RIGHT_PARENTHESIS  shift, and go to state 14
+
+
+state 10
+
+    4 l_expression: p_expression .
+
+    $default  reduce using rule 4 (l_expression)
+
+
+state 11
+
+    6 p_expression: type_expression . IDENT
+
+    IDENT  shift, and go to state 15
+
+
+state 12
+
+    2 d_expression: type_expression IDENT LEFT_PARENTHESIS RIGHT_PARENTHESIS SEMICOLON .
+
+    $default  reduce using rule 2 (d_expression)
+
+
+state 13
+
+    3 l_expression: l_expression COMMA . p_expression
+
+    TYPE_INT     shift, and go to state 1
+    TYPE_STRING  shift, and go to state 2
+
+    $default  reduce using rule 5 (p_expression)
+
+    p_expression     go to state 16
+    type_expression  go to state 11
+
+
+state 14
+
+    1 d_expression: type_expression IDENT LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS . SEMICOLON
+
+    SEMICOLON  shift, and go to state 17
+
+
+state 15
+
+    6 p_expression: type_expression IDENT .
+
+    $default  reduce using rule 6 (p_expression)
+
+
+state 16
+
+    3 l_expression: l_expression COMMA p_expression .
+
+    $default  reduce using rule 3 (l_expression)
+
+
+state 17
+
+    1 d_expression: type_expression IDENT LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS SEMICOLON .
+
+    $default  reduce using rule 1 (d_expression)
