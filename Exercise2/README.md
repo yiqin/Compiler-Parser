@@ -14,62 +14,20 @@ The binary file is ``calc``. Type
 ```
 to run the test case.
 
-Question 1
+```
+make clean 
+```
+is to clean other files.
+
+Question 1 (Finished)
 =======
-More details are in the file ``symbol_table.hpp``
-```
-class Symbol_Table
-{
-public:
-  const void add (std::string key, int value) {
-    m[key] = value;
-  };
-  const int get_value (std::string key) {
-    return m[key];
-  };
-  const bool is_variable_defined (std::string key) {
-    if (m.find(key) != m.end()) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-protected:
-  std::map<std::string, int> m;
-};
-```
+I created a class Argument to hanlde the data of arguments. Please check symbol_talbe.hpp file.
 
-Question 2
+Question 2 (Finished)
 =======
-The code can create a calculator. Semantic rules are in ``calc.y``
-Here are some example
 ```
-input:
-		| intermediate SEMICOLON input	{ 
-        cout << $1 << "; "  << endl;
-      }
-    | {}
-		;
-
-intermediate:
-      VARIABLE ASSIGN exp { 
-        $$ = $3; 
-        symbol_table.add(*$1, $3);
-      }
-    | exp { $$ = $1; }
-    | {}
-    ;
+symbol_table.check_coherency_declaration(*$2, "");
 ```
-
-
-Question 3
-=======
-type 
-```
-./calc <testCase.txt 
-```
-to calculate a:=5; a*a +2
-
 
 Reference
 =======

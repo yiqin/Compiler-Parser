@@ -37,13 +37,14 @@ Symbol_Table symbol_table;
 
 %%
 
+// S -> D | S D
 s_expression:
 		| d_expression	{ 
       }
     | s_expression d_expression { }
 		;
 
-
+// D -> T ident ( L ) ; | T ident ( ) ;
 d_expression:
       type_expression IDENT LEFT_PARENTHESIS l_expression RIGHT_PARENTHESIS SEMICOLON {
         
@@ -56,15 +57,26 @@ d_expression:
           oss << argument->get_name() << "(" << argument->get_type_str() << ")" << ", ";
         }
         cout << oss.str() << endl;
+
+        ostringstream arguments_type_list_str;
+        for (auto& argument : *$4) {
+          arguments_type_list_str << argument->get_type_str() << ", ";
+        }
+        // Question 2:
+        symbol_table.check_coherency_declaration(*$2, arguments_type_list_str.str());
       }
+
     | type_expression IDENT LEFT_PARENTHESIS RIGHT_PARENTHESIS SEMICOLON {
+
         cout << "Function: " << *$2 << endl;
         cout << "Type: " << ($1== Type::INT ? "int" : "string") << endl;
         cout << "No arguments" << endl;
+        // Question 2:
+        symbol_table.check_coherency_declaration(*$2, "");
     }
     ;
 
-
+// L -> P | L , P
 l_expression:
       l_expression COMMA p_expression {
         $$ = $1;
@@ -77,7 +89,7 @@ l_expression:
       }
     ;
 
-
+// P -> T ident
 p_expression:
     | type_expression IDENT {
         Argument *new_argument = new Argument();
@@ -88,7 +100,7 @@ p_expression:
       }
     ;
 
-
+// T -> int | string
 type_expression:
       TYPE_INT { 
         // cout << "type int" << endl;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 
 enum class Type {
     INT,
@@ -38,10 +39,10 @@ public:
 class Symbol_Table
 {
 public:
-	const void add (std::string key, int value) {
+	const void add (std::string key, std::string value) {
 		m[key] = value;
 	};
-	const int get_value (std::string key) {
+	const std::string get_value (std::string key) {
 		return m[key];
 	};
 	const bool is_variable_defined (std::string key) {
@@ -51,8 +52,18 @@ public:
 			return false;
 		}
 	};
+	const void check_coherency_declaration(std::string function_name, std::string argument_list_str) {
+		if (is_variable_defined(function_name)) {
+			std::string previous_argument_list_str = get_value(function_name);
+			if (previous_argument_list_str.compare(argument_list_str) != 0) {
+				std::cout << "ERROR: " << function_name << " has the same name and different arguements" << endl;
+			}
+		} else {
+			add(function_name, argument_list_str);
+		}
+	}
 protected:
-	std::map<std::string, int> m;
+	std::map<std::string, std::string> m;
 };
 
 #endif
